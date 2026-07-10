@@ -12,8 +12,8 @@ export default function ProductCard({
 }) {
     if (preview) {
         return (
-            <div className=" flex flex-col bg-white rounded-lg p-4">
-                <div className="aspect-[1.5/1] flex items-center justify-center">
+            <div className="min-w-60 flex flex-col bg-white rounded-lg p-4">
+                <div className="aspect-[1.5/1] flex items-center rounded-md justify-center">
                     <img
                         src={image}
                         className="h-40 object-contain"
@@ -43,11 +43,11 @@ export default function ProductCard({
         );
     }
     return (
-        <Link href={hreff} className=" flex flex-col bg-white rounded-lg p-4">
+        <Link href={hreff} className="min-w-60 flex flex-col bg-white rounded-lg p-4">
             <div className="aspect-[1.5/1] flex items-center justify-center">
                 <img
                     src={image}
-                    className="h-40 object-contain"
+                    className="h-40 rounded-md object-contain"
                     alt="image card"
                 />
             </div>

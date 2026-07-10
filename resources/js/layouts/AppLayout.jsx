@@ -5,7 +5,7 @@ export default function AppLayout({children}){
         <div className="flex min-h-screen">
             <Sidebar/>
             <div className="flex-1 bg-[#f0f6f6]">
-                <main className="p-6">
+                <main className="">
                     {children}
                 </main>
             </div>

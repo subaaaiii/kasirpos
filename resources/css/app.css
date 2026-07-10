@@ -17,3 +17,12 @@
     --color-secondary: #0abc8a;
     --color-accent: #10b981;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE dan Edge lama */
+    scrollbar-width: none; /* Firefox */
+}
