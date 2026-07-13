@@ -15,7 +15,7 @@ export default function ShowSales() {
                                 autoComplete="country-name"
                                 className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
                             >
-                                <option>Januari</option>
+                                <option>Food</option>
                                 <option>Beverages</option>
                                 <option>Dish</option>
                             </select>
@@ -33,10 +33,10 @@ export default function ShowSales() {
                                 />
                             </svg>
                         </div>
-                        <div className="flex gap-2 p-1.5 items-center rounded-md border">
+                        <button className="flex gap-2 p-2 bg-primary1 text-white items-center rounded-md border">
                             <Save size={22} />
                             <span>Export report</span>
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <div className="mt-4 relative overflow-x-auto bg-gray-100 shadow-xs rounded-md border border-default">

@@ -17,7 +17,7 @@ export function DatePicker() {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger aschild="true">
   <div className="border rounded-lg p-2 bg-white cursor-pointer flex items-center justify-between">
     <span>{date ? format(date, "PPP") : "Pick a date"}</span>
     <ChevronDownIcon />

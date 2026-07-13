@@ -16,7 +16,7 @@ export default function Dashboard() {
     const image = "https://s3-publishing-cmn-svc-prd.s3.ap-southeast-1.amazonaws.com/article/UoLR8_o3nEHFjV5b1sQ5z/original/045285900_1547016776-4-Cara-Bikin-Kebiasaan-Minum-Kopi-Jadi-Lebih-Sehat-By-Ruslan-Semichev-Shutterstock.jpg"
     return (
         <AppLayout>
-            <div>
+            <div className="p-6 h-screen overflow-y-auto">
                 <h1 className="text-3xl font-semibold">Today's Overview</h1>
                 <h2 className="text-gray-400 ">
                     Welcome back, Here's what happening today
@@ -341,7 +341,7 @@ export default function Dashboard() {
                     {/* Inventory Alerts */}
                     <div className="rounded-xl w-full h-auto bg-white p-6">
                         <h2 className="text-xl font-bold">
-                            Recent Transactions
+                            Inventory alerts
                         </h2>
                         <div className="flex flex-col gap-2 mt-4">
                             <div className="flex justify-between rounded-lg bg-red-500/20 items-center p-4">

@@ -7,13 +7,13 @@ export default function ShowOrders() {
         <AppLayout>
             <div className="p-10">
                 <div className="flex justify-between">
-                    <h1 className="text-3xl font-semibold">Sales Report</h1>
+                    <h1 className="text-3xl font-semibold">Orders Report</h1>
                     <div className="flex gap-2 items-center">
                         <DatePicker/>
-                        <div className="bg-primary1 text-white flex gap-2 p-2 items-center rounded-md border">
+                        <button className="bg-primary1 text-white flex gap-2 p-2 items-center rounded-md border">
                             <Save size={22} />
                             <span>Export report</span>
-                        </div>
+                        </button>
                     </div>
                 </div>
                 <div className="mt-4 relative overflow-x-auto bg-gray-100 shadow-xs rounded-md border border-default">
