@@ -2,26 +2,30 @@ import { useState } from "react";
 import ProductCard from "../../components/ProductCard";
 import AppLayout from "../../layouts/AppLayout";
 import { Check, CircleX, PenLine, Plus, X } from "lucide-react";
+import { router } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 
-export default function Create() {
+export default function Create({ categories: initialCategories }) {
     const image =
         "https://s3-publishing-cmn-svc-prd.s3.ap-southeast-1.amazonaws.com/article/UoLR8_o3nEHFjV5b1sQ5z/original/045285900_1547016776-4-Cara-Bikin-Kebiasaan-Minum-Kopi-Jadi-Lebih-Sehat-By-Ruslan-Semichev-Shutterstock.jpg";
 
     const [openModal, setOpenModal] = useState(false);
     // const [categories, setCategories] = useState(["Food", "beverages", "other"]);
-    const [categories, setCategories] = useState([
-        { name: "Food", isEditing: false },
-        { name: "Drink", isEditing: false },
-    ]);
+    const [categories, setCategories] = useState(
+        initialCategories.map((category) => ({
+            ...category,
+            isEditing: false,
+        })),
+    );
     const handleAddCategory = () => {
-    setCategories([
-        ...categories,
-        {
-            name: "",
-            isEditing: true,
-        },
-    ]);
-};
+        setCategories([
+            ...categories,
+            {
+                name: "",
+                isEditing: true,
+            },
+        ]);
+    };
 
     const handleEdit = (index) => {
         setCategories(
@@ -40,6 +44,23 @@ export default function Create() {
             ),
         );
     };
+
+    const saveCategory = (category, index) => {
+        if (category.id) {
+            router.put(`/categories/${category.id}`, {
+                name: category.name,
+            });
+        } else {
+            router.post("/categories", {
+                name: category.name,
+            });
+        }
+        handleEdit(index);
+    };
+
+    const { flash } = usePage().props;
+
+    console.log(flash);
     return (
         <AppLayout>
             <div className="grid grid-cols-2 mt-10">
@@ -79,14 +100,14 @@ export default function Create() {
                     </div>
                     <div className="mt-2 grid grid-cols-1">
                         <select
-                            id="country"
-                            name="country"
-                            autoComplete="country-name"
+                            id="category"
+                            name="category_id"
+                            autoComplete="category-id"
                             className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
                         >
-                            <option>Food</option>
-                            <option>Beverages</option>
-                            <option>Dish</option>
+                            {categories.map((category, index) => (
+                                <option key={index}>{category.name}</option>
+                            ))}
                         </select>
                         <svg
                             viewBox="0 0 16 16"
@@ -232,31 +253,31 @@ export default function Create() {
                                                     }`}
                                                 />
                                                 <div className="flex gap-2 items-center">
-                                                    {category.isEditing ? (
-                                                        <button
-                                                            onClick={() =>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            if (
+                                                                category.isEditing
+                                                            ) {
+                                                                saveCategory(
+                                                                    category,
+                                                                    index,
+                                                                );
+                                                            } else {
                                                                 handleEdit(
                                                                     index,
-                                                                )
+                                                                );
                                                             }
-                                                            type="button"
-                                                        >
+                                                        }}
+                                                    >
+                                                        {category.isEditing ? (
                                                             <Check size={18} />
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            onClick={() =>
-                                                                handleEdit(
-                                                                    index,
-                                                                )
-                                                            }
-                                                            type="button"
-                                                        >
+                                                        ) : (
                                                             <PenLine
                                                                 size={18}
                                                             />
-                                                        </button>
-                                                    )}
+                                                        )}
+                                                    </button>
                                                     <CircleX />
                                                 </div>
                                             </div>

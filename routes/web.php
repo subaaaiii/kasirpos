@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 use Inertia\Inertia;
@@ -7,16 +9,22 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Dashboard');
 });
-Route::get('/products', function () {
-    return Inertia::render('Products/index');
-});
-Route::get('/products/create', function () {
-    return Inertia::render('Products/Create');
-});
+// Route::get('/products', function () {
+//     return Inertia::render('Products/index');
+// });
+// Route::get('/products/create', function () {
+//     return Inertia::render('Products/Create');
+// });
 
 Route::get('/cashier', function () {
     return Inertia::render('Cashier/Index');
 });
+
+Route::resource('categories', CategoryController::class)
+    ->only(['store', 'update', 'destroy']);
+
+Route::resource('products', ProductController::class);
+
 Route::get('/sales', function () {
     return Inertia::render('Sales/Index');
 });
