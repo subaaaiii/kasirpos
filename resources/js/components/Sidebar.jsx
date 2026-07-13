@@ -25,6 +25,11 @@ export default function Sidebar() {
             icon: ChartSpline,
         },
         {
+            name: "Orders",
+            href: "/orders",
+            icon: ShoppingCart,
+        },
+        {
             name: "Products",
             href: "/products",
             icon: Package,

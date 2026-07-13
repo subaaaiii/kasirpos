@@ -16,3 +16,6 @@ Route::get('/products/create', function () {
 Route::get('/sales', function () {
     return Inertia::render('Sales/Index');
 });
+Route::get('/orders/', function () {
+    return Inertia::render('Orders/Index');
+});
