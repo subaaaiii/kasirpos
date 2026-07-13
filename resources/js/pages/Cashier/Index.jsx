@@ -153,7 +153,7 @@ export default function Cashier() {
                                 <img src={qris} alt="" />
                             </div>
                         </div>
-                        <button className="p-3 text-center bg-secondary rounded-md text-white w-full my-2">
+                        <button className="p-3 text-center bg-secondary1 rounded-md text-white w-full my-2">
                             Place Order
                         </button>
                     </div>

@@ -36,14 +36,14 @@ export default function Sidebar() {
         },
     ];
     return (
-        <aside className="w-80 text-white bg-[#023d3b] p-2">
+        <aside className="w-80 text-white bg-primary1 p-2">
             <h1 className="text-3xl font-bold text-center py-4">KASIRPOS</h1>
 
             <ul className="mt-4 flex flex-col gap-2">
                 {menus.map((menu) => {
                     const Icon = menu.icon;
                     return (
-                        <li className="p-4 flex gap-2 items-center hover:bg-[#0abc8a] rounded-xl cursor-pointer">
+                        <li className="p-4 flex gap-2 items-center hover:bg-secondary1 rounded-xl cursor-pointer">
                             <Icon size={22} />
                             <Link className="text-xl" href={menu.href}>
                                 {menu.name}

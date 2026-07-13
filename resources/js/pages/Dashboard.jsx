@@ -33,13 +33,13 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             <div>
-                                <div className="rounded-full p-3 bg-[#0abc8a]/15">
-                                    <CircleDollarSign className="w-8 h-8 text-[#0abc8a] " />
+                                <div className="rounded-full p-3 bg-secondary1/15">
+                                    <CircleDollarSign className="w-8 h-8 text-secondary1 " />
                                 </div>
                             </div>
                         </div>
                         <div className="flex justify-between mt-4">
-                            <div className="flex text-[#0abc8a] items-center">
+                            <div className="flex text-secondary1 items-center">
                                 <ArrowUp />
                                 <span className="text-xl">18%</span>
                             </div>
@@ -63,7 +63,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                         <div className="flex justify-between mt-6">
-                            <div className="flex text-[#0abc8a] items-center">
+                            <div className="flex text-secondary1 items-center">
                                 <ArrowUp />
                                 <span className="text-xl">18%</span>
                             </div>
@@ -87,7 +87,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                         <div className="flex justify-between mt-4">
-                            <div className="flex text-[#0abc8a] items-center">
+                            <div className="flex text-secondary1 items-center">
                                 <ArrowUp />
                                 <span className="text-xl">18%</span>
                             </div>
@@ -113,7 +113,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                         <div className="flex justify-between mt-4">
-                            <div className="flex text-[#0abc8a] items-center">
+                            <div className="flex text-secondary1 items-center">
                                 <ArrowUp />
                                 <span className="text-xl">18%</span>
                             </div>
@@ -152,7 +152,7 @@ export default function Dashboard() {
                                     <div className="font-bold text-lg">
                                         RP.200,000
                                     </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
+                                    <div className="flex gap-2 items-center text-secondary1">
                                         <ArrowUp className="w-4 h-4" />
                                         <span>18%</span>
                                     </div>
@@ -176,31 +176,7 @@ export default function Dashboard() {
                                     <div className="font-bold text-lg">
                                         RP.200,000
                                     </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
-                                        <ArrowUp className="w-4 h-4" />
-                                        <span>18%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div>
-                                        <img src={image} className="w-32 h-16 rounded-lg" alt="kopi" />
-                                        
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <div className="font-bold text-lg">
-                                            nama produk
-                                        </div>
-                                        <div>100 units</div>
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-col">
-                                    <div className="font-bold text-lg">
-                                        RP.200,000
-                                    </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
+                                    <div className="flex gap-2 items-center text-secondary1">
                                         <ArrowUp className="w-4 h-4" />
                                         <span>18%</span>
                                     </div>
@@ -224,7 +200,31 @@ export default function Dashboard() {
                                     <div className="font-bold text-lg">
                                         RP.200,000
                                     </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
+                                    <div className="flex gap-2 items-center text-secondary1">
+                                        <ArrowUp className="w-4 h-4" />
+                                        <span>18%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex justify-between">
+                                <div className="flex items-center gap-4">
+                                    <div>
+                                        <img src={image} className="w-32 h-16 rounded-lg" alt="kopi" />
+                                        
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <div className="font-bold text-lg">
+                                            nama produk
+                                        </div>
+                                        <div>100 units</div>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <div className="font-bold text-lg">
+                                        RP.200,000
+                                    </div>
+                                    <div className="flex gap-2 items-center text-secondary1">
                                         <ArrowUp className="w-4 h-4" />
                                         <span>18%</span>
                                     </div>
@@ -257,8 +257,8 @@ export default function Dashboard() {
                                     <div className="font-bold text-lg">
                                         RP.200,000
                                     </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
-                                        <span className="text-sm rounded-full bg-[#0abc8a]/20 py-1 px-2">
+                                    <div className="flex gap-2 items-center text-secondary1">
+                                        <span className="text-sm rounded-full bg-secondary1/20 py-1 px-2">
                                             completed
                                         </span>
                                     </div>
@@ -266,7 +266,7 @@ export default function Dashboard() {
                             </div>
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-4">
-                                    <div className="rounded-full p-2 bg-[#0abc8a]/20 text-[#0abc8a]">
+                                    <div className="rounded-full p-2 bg-secondary1/20 text-secondary1">
                                         <BanknoteArrowUp />
                                     </div>
                                     <div className="flex flex-col">
@@ -281,8 +281,8 @@ export default function Dashboard() {
                                     <div className="font-bold text-lg">
                                         RP.200,000
                                     </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
-                                        <span className="text-sm rounded-full bg-[#0abc8a]/20 py-1 px-2">
+                                    <div className="flex gap-2 items-center text-secondary1">
+                                        <span className="text-sm rounded-full bg-secondary1/20 py-1 px-2">
                                             completed
                                         </span>
                                     </div>
@@ -290,7 +290,7 @@ export default function Dashboard() {
                             </div>
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-4">
-                                    <div className="rounded-full p-2 bg-[#0abc8a]/20 text-[#0abc8a]">
+                                    <div className="rounded-full p-2 bg-secondary1/20 text-secondary1">
                                         <CreditCard />
                                     </div>
                                     <div className="flex flex-col">
@@ -305,8 +305,8 @@ export default function Dashboard() {
                                     <div className="font-bold text-lg">
                                         RP.200,000
                                     </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
-                                        <span className="text-sm rounded-full bg-[#0abc8a]/20 py-1 px-2">
+                                    <div className="flex gap-2 items-center text-secondary1">
+                                        <span className="text-sm rounded-full bg-secondary1/20 py-1 px-2">
                                             completed
                                         </span>
                                     </div>
@@ -314,7 +314,7 @@ export default function Dashboard() {
                             </div>
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-4">
-                                    <div className="rounded-full p-2 bg-[#0abc8a]/20 text-[#0abc8a]">
+                                    <div className="rounded-full p-2 bg-secondary1/20 text-secondary1">
                                         <CreditCard />
                                     </div>
                                     <div className="flex flex-col">
@@ -329,8 +329,8 @@ export default function Dashboard() {
                                     <div className="font-bold text-lg">
                                         RP.200,000
                                     </div>
-                                    <div className="flex gap-2 items-center text-[#0abc8a]">
-                                        <span className="text-sm rounded-full bg-[#0abc8a]/20 py-1 px-2">
+                                    <div className="flex gap-2 items-center text-secondary1">
+                                        <span className="text-sm rounded-full bg-secondary1/20 py-1 px-2">
                                             completed
                                         </span>
                                     </div>
