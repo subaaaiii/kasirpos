@@ -13,6 +13,10 @@ Route::get('/products', function () {
 Route::get('/products/create', function () {
     return Inertia::render('Products/Create');
 });
+
+Route::get('/cashier', function () {
+    return Inertia::render('Cashier/Index');
+});
 Route::get('/sales', function () {
     return Inertia::render('Sales/Index');
 });
