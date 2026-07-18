@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -14,7 +15,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255'
         ]);
         Category::create($validated);
-        return redirect()->back()->with(["success" => "added to categories"]);
+        return redirect()->back()->with(["success" => "Added to categories"]);
     }
     public function update(Request $request, Category $category)
     {
@@ -22,6 +23,11 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255'
         ]);
         $category->update($validated);
-        return redirect()->back()->with(["success" => "category updated"]);
+        return redirect()->back()->with(["success" => "Category updated"]);
+    }
+    public function destroy(Category $category)
+    {
+        $category->delete();
+        return redirect()->back()->with(["success" => "Category deleted"]);
     }
 }

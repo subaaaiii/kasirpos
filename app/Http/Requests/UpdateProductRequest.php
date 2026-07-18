@@ -12,7 +12,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,7 +28,6 @@ class UpdateProductRequest extends FormRequest
             'price' => 'required|numeric|min:500',
             'image' => 'nullable|image|mimes:png,jpg,webp,jpeg,gif,svg|max:2048',
             'stock' => 'required|numeric|min:1',
-            'is_active' => 'required|boolean',
         ];
     }
 }

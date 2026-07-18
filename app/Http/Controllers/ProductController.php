@@ -12,34 +12,57 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    public function index(){
-        return Inertia::render('Products/index',[
-            'products' => Product::latest()->paginate(20),
-        ]);
-    }
+    public function index(Request $request)
+{
+    $products = Product::with('category')
+        ->when($request->search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%");
+        })
+        ->when($request->category, function ($query, $category) {
+            $query->where('category_id', $category);
+        })
+        ->latest()
+        ->paginate(20)
+        ->withQueryString();
 
-    public function create(){
-        return Inertia::render('Products/Create', [
+    return Inertia::render('Products/index', [
+        'products' => $products,
+        'categories' => Category::select('id', 'name')->get(),
+        'filters' => $request->only(['search', 'category']),
+    ]);
+}
+
+    public function create()
+    {
+        return Inertia::render('Products/Form', [
             'categories' => Category::latest()->get(),
         ]);
     }
 
-    public function store(StoreProductRequest $request){
+    public function store(StoreProductRequest $request)
+    {
         $data = $request->validated();
         $data['image'] = $request->file('image')->store('products', 'public');
+        $data['is_active'] = true;
 
         Product::create($data);
-        return redirect()->route('Products.index')->with(["success" => "Data behasil disimpan"]);
+        return redirect()->route('products.index')->with(["success" => "Data behasil disimpan"]);
     }
-    public function show(int $id){
-        $product = Product::find($id);
-        return Inertia::render('Product/Create', compact('product'));
+    public function edit(Product $product)
+    {
+        return Inertia::render('Products/Form', [
+            'categories' => Category::latest()->get(),
+            "product" => $product->load('category')
+        ]);
     }
-    public function update(UpdateProductRequest $request, Product $product){
+    public function update(UpdateProductRequest $request, Product $product)
+    {
         $data = $request->validated();
-        if ($request->hasFile('image')){
-            $data['image'] = $request->file('image')->store('products','public');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('products', 'public');
             Storage::disk('public')->delete($product->image);
+        } else {
+            unset($data['image']);
         }
         $product->update($data);
 
