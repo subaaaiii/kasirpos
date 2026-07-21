@@ -45,7 +45,7 @@ export default function Sidebar() {
         return url.startsWith(href);
     };
     return (
-        <aside className="w-80 text-white bg-primary1 p-2">
+        <aside className="w-60 xl:w-80 text-white bg-primary1 p-2">
             <h1 className="text-3xl font-bold text-center py-4">KASIRPOS</h1>
 
             <ul className="mt-4 flex flex-col gap-2">

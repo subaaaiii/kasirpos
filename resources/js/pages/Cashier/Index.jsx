@@ -4,113 +4,195 @@ import AppLayout from "../../layouts/AppLayout";
 import card from "../../../images/card.jpg";
 import cash from "../../../images/cash.png";
 import qris from "../../../images/qris.png";
+import ProductSearch from "@/components/ProductSearch";
+import { useState } from "react";
+import { formatPrice } from "@/helpers/formatPrice";
+import { router } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
-export default function Cashier() {
-    const image =
-        "https://s3-publishing-cmn-svc-prd.s3.ap-southeast-1.amazonaws.com/article/UoLR8_o3nEHFjV5b1sQ5z/original/045285900_1547016776-4-Cara-Bikin-Kebiasaan-Minum-Kopi-Jadi-Lebih-Sehat-By-Ruslan-Semichev-Shutterstock.jpg";
+export default function Cashier({ products, categories, filters }) {
+    const [orderItems, setOrderItems] = useState([]);
+    const [payment, setPayment] = useState();
+    const handleClickProduct = (product) => {
+        setOrderItems((prev) => {
+            const existing = prev.find((item) => item.id === product.id);
+            if (existing) {
+                return prev.map((item) =>
+                    item.id === product.id
+                        ? { ...item, qty: item.qty + 1 }
+                        : item,
+                );
+            }
+            return [
+                ...prev,
+                {
+                    id: product.id,
+                    name: product.name,
+                    image: product.image,
+                    price: product.price,
+                    qty: 1,
+                },
+            ];
+        });
+    };
+
+    const handleAddQty = (id) => {
+        setOrderItems((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, qty: item.qty + 1 } : item,
+            ),
+        );
+    };
+    const handleReduceQty = (product) => {
+        if (product.qty === 1) {
+            setOrderItems((prev) =>
+                prev.filter((item) => item.id !== product.id),
+            );
+        }
+        setOrderItems((prev) =>
+            prev.map((item) =>
+                item.id === product.id ? { ...item, qty: item.qty - 1 } : item,
+            ),
+        );
+    };
+    const handleEmptyOrderItems = () => {
+        setOrderItems([]);
+    };
+
+    const handleDeleteOrderItem = (id) => {
+        setOrderItems((prev) => prev.filter((item) => item.id !== id));
+    };
+
+    const handleSetQty = (value, id) => {
+        setOrderItems((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, qty: Number(value) } : item,
+            ),
+        );
+    };
+
+    const subtotal = orderItems.reduce(
+        (total, item) => total + item.price * item.qty,
+        0,
+    );
+
+    const tax = subtotal * 0.1; // PPN 10%
+
+    const total = subtotal + tax;
+
+    const handlePlaceOrder = () => {
+        if (orderItems.length === 0) {
+            toast.error("Order item still empty");
+            return;
+        }
+        if (!payment) {
+            toast.error("Choose payment method");
+            return;
+        }
+        router.post("/orders", { items: orderItems, payment_method: payment }, {onSuccess: ()=>{
+            setOrderItems([]);
+            setPayment("");
+        }});
+        // router.post("/orders", { items: orderItems, payment_method: payment });
+    };
 
     return (
         <AppLayout>
             <div className="flex h-screen relative">
                 <div className="flex-1 min-w-0 h-screen overflow-x-auto no-scrollbar">
-                    <div className="sticky top-0 z-10 bg-[#f0f6f6] ">
-                        <div className="grid grid-cols-8 w-full p-6 pb-0 pr-4 gap-4 ">
-                            <div className="col-span-6 bg-white rounded-xl border border-gray-300 hover:border-secondary rounded-lg relative outline-none">
-                                <input
-                                    type="text"
-                                    className="p-3.5 pl-12 w-full text-xl outline-none text-gray-600"
-                                />
-                                <div className="absolute pl-3 h-full top-0 flex items-center">
-                                    <Search
-                                        size={30}
-                                        className="text-gray-600"
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-span-2 w-full grid grid-cols-1">
-                                <select
-                                    id="country"
-                                    name="country"
-                                    autoComplete="country-name"
-                                    className="col-start-1 text-xl text-gray-600 border border-gray-300  focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none  row-start-1 w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3  outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-primary"
-                                >
-                                    <option>Food</option>
-                                    <option>Beverages</option>
-                                    <option>Dish</option>
-                                </select>
-                                <svg
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    data-slot="icon"
-                                    aria-hidden="true"
-                                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                                >
-                                    <path
-                                        d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-                                        clipRule="evenodd"
-                                        fillRule="evenodd"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-4 justify-center gap-4 p-6 pr-0">
-                        {Array.from({ length: 36 }).map((_, index) => (
+                    <ProductSearch categories={categories} url={"/cashier"} filters={filters}/>
+                    <div className="grid grid-cols-2 xl:grid-cols-4 justify-center gap-4 p-6">
+                        {products.data.map((product) => (
                             <ProductCard
-                                key={index + 1}
-                                stock={20}
-                                price="Rp. 20,000"
-                                image={image}
-                                category="Food"
-                                name="Kopi ireng"
-                                hreff="Products.Create"
+                                key={product.id}
+                                stock={product.stock}
+                                price={product.price}
+                                image={`/storage/${product.image}`}
+                                category={product.category.name}
+                                name={product.name}
+                                onClick={() => handleClickProduct(product)}
                             />
                         ))}
                     </div>
                 </div>
-                <div className="w-100 h-screen relative bg-white">
+                <div className="w-70 xl:w-100 h-screen relative bg-white">
                     <div className="flex justify-between items-center p-4 border-b border-gray-300 ">
                         <div className="text-2xl font-medium">
                             Current Order
                         </div>
-                        <div className="p-4 rounded-lg">
+                        <button
+                            type="button"
+                            onClick={handleEmptyOrderItems}
+                            className="p-4 rounded-lg"
+                        >
                             <Trash />
-                        </div>
+                        </button>
                     </div>
                     <div className="flex h-[calc(100vh-370px)] flex-col p-4 overflow-y-auto">
-                        {Array.from({ length: 12 }).map((_, index) => (
+                        {orderItems.map((item) => (
                             <div
                                 className="grid grid-cols-7 gap-2 items-center"
-                                key={index}
+                                key={item.id}
                             >
                                 <div className="col-span-2 aspect-square bg-[#f0f6f6] rounded-md flex items-center">
                                     <img
-                                        src={image}
+                                        src={`/storage/${item.image}`}
                                         alt="image product"
                                         className="object-contain"
                                     />
                                 </div>
-                                <div className="col-span-3 space-y-1">
+                                <div className="col-span-5 space-y-1">
                                     <div className="text-lg font-medium">
-                                        Lemon
+                                        {item.name}
                                     </div>
                                     <div className="text-gray-500">
-                                        Rp. 10,000
+                                        {formatPrice(item.price)}
                                     </div>
-                                    <div className="w-fit p-1.5 bg-[#f0f6f6] rounded-md">
-                                        <PenLine
-                                            className="text-gray-500"
-                                            size={15}
+
+                                    <div className="flex gap-2 ">
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleDeleteOrderItem(item.id)
+                                            }
+                                            className="w-fit p-2 bg-[#f0f6f6] rounded-md"
+                                        >
+                                            <Trash
+                                                className="text-gray-500"
+                                                size={15}
+                                            />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleReduceQty(item)
+                                            }
+                                            className="px-2 py-0.5 bg-[#f0f6f6]"
+                                        >
+                                            <Minus size={20} />
+                                        </button>
+                                        <input
+                                            type="text"
+                                            inputMode="numeric"
+                                            value={item.qty}
+                                            onChange={(e) =>
+                                                handleSetQty(
+                                                    e.target.value,
+                                                    item.id,
+                                                )
+                                            }
+                                            size={String(item.qty).length}
+                                            className="text-center"
                                         />
-                                    </div>
-                                </div>
-                                <div className="col-span-2 flex gap-2 ">
-                                    <div className="px-2 py-0.5 bg-[#f0f6f6]">
-                                        <Minus size={20} />
-                                    </div>
-                                    <span>1</span>
-                                    <div className="px-2 py-0.5 bg-[#f0f6f6]">
-                                        <Plus size={20} />
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleAddQty(item.id)
+                                            }
+                                            className="px-2 py-0.5 bg-[#f0f6f6]"
+                                        >
+                                            <Plus size={20} />
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -120,40 +202,59 @@ export default function Cashier() {
                         <div className="text-lg">Payment summary</div>
                         <div className="grid grid-cols-3 w-full  text-gray-400">
                             <div className="col-span-2">Sub total</div>
-                            <div className="col-span-1 flex justify-between ">
-                                <div>IDR</div>
-                                <div>Rp 20,000</div>
+                            <div className="col-span-1 flex justify-end ">
+                                <div>{formatPrice(subtotal)}</div>
                             </div>
                         </div>
                         <div className="grid grid-cols-3 w-full  text-gray-400">
                             <div className="col-span-2">Tax (10%)</div>
-                            <div className="col-span-1 flex justify-between ">
-                                <div>IDR</div>
-                                <div>Rp. 2,000</div>
+                            <div className="col-span-1 flex justify-end ">
+                                <div>{formatPrice(tax)}</div>
                             </div>
                         </div>
                         <div className="grid grid-cols-3 w-full">
                             <div className="col-span-2 font-medium">Total</div>
-                            <div className="col-span-1 flex justify-between ">
-                                <div>IDR</div>
-                                <div>Rp 22,000</div>
+                            <div className="col-span-1 flex justify-end ">
+                                <div>{formatPrice(total)}</div>
                             </div>
                         </div>
                         <div className="text-lg font-medium mt-4">
                             Payment Method
                         </div>
                         <div className="grid grid-cols-3 gap-2">
-                            <div className="px-6 py-1 border border-gray-200 flex items-center rounded-md hover:border-secondary">
-                                <img src={card} alt="" />
-                            </div>
-                            <div className="px-6 py-1 border border-gray-200 flex items-center rounded-md hover:border-secondary">
-                                <img src={cash} alt="" />
-                            </div>
-                            <div className="px-6 py-1 border border-gray-200 flex items-center rounded-md hover:border-secondary">
-                                <img src={qris} alt="" />
-                            </div>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPayment("card");
+                                }}
+                                className={`px-3 xl:px-6 py-1 border   flex items-center rounded-md hover:border-secondary1 ${payment === "card" ? "border border-secondary1" : ""}`}
+                            >
+                                <img src={card} alt="icon card" />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPayment("cash");
+                                }}
+                                className={`px-3 xl:px-6 py-1 border   flex items-center rounded-md hover:border-secondary1 ${payment === "cash" ? "border border-secondary1" : ""}`}
+                            >
+                                <img src={cash} alt="icon cash" />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPayment("qris");
+                                }}
+                                className={`px-3 xl:px-6 py-1 border  flex items-center rounded-md hover:border-secondary1 ${payment === "qris" ? "border border-secondary1" : ""} `}
+                            >
+                                <img src={qris} alt="icon qris" />
+                            </button>
                         </div>
-                        <button className="p-3 text-center bg-secondary1 rounded-md text-white w-full my-2">
+                        <button
+                            type="button"
+                            onClick={handlePlaceOrder}
+                            className="p-3 text-center bg-secondary1 rounded-md text-white w-full my-2"
+                        >
                             Place Order
                         </button>
                     </div>

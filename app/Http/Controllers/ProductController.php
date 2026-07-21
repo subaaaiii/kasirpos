@@ -13,24 +13,24 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
     public function index(Request $request)
-{
-    $products = Product::with('category')
-        ->when($request->search, function ($query, $search) {
-            $query->where('name', 'like', "%{$search}%");
-        })
-        ->when($request->category, function ($query, $category) {
-            $query->where('category_id', $category);
-        })
-        ->latest()
-        ->paginate(20)
-        ->withQueryString();
+    {
+        $products = Product::with('category')
+            ->when($request->search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->when($request->category, function ($query, $category) {
+                $query->where('category_id', $category);
+            })
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
 
-    return Inertia::render('Products/index', [
-        'products' => $products,
-        'categories' => Category::select('id', 'name')->get(),
-        'filters' => $request->only(['search', 'category']),
-    ]);
-}
+        return Inertia::render('Products/index', [
+            'products' => $products,
+            'categories' => Category::select('id', 'name')->get(),
+            'filters' => $request->only(['search', 'category']),
+        ]);
+    }
 
     public function create()
     {

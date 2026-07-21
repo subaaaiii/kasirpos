@@ -1,14 +1,19 @@
-import { useEffect } from "react";
 import { usePage } from "@inertiajs/react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 export default function FlashMessage() {
-    const { flash } = usePage().props;
+    const page = usePage();
 
     useEffect(() => {
-        if (flash.success) toast.success(flash.success);
-        if (flash.error) toast.error(flash.error);
-    }, [flash]);
+        if (page.props.flash?.success) {
+            toast.success(page.props.flash.success);
+        }
+
+        if (page.props.flash?.error) {
+            toast.error(page.props.flash.error);
+        }
+    }, [page.props]);
 
     return null;
 }

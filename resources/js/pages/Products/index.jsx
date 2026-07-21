@@ -2,12 +2,13 @@ import ProductCard from "../../components/ProductCard";
 import AppLayout from "../../layouts/AppLayout";
 import PlusIcon from "../../../images/plus.png";
 import ProductSearch from "@/components/ProductSearch";
+import { router } from "@inertiajs/react";
 
 export default function Index({ products, categories }) {
     return (
         <AppLayout>
             <div className="h-screen overflow-y-auto ">
-                <ProductSearch categories={categories} />
+                <ProductSearch categories={categories} url={"/products"} />
                 <div className="grid grid-cols-5 gap-4 pt-10 p-6">
                     <ProductCard
                         key={1}
@@ -16,7 +17,7 @@ export default function Index({ products, categories }) {
                         image={PlusIcon}
                         category="New"
                         name={"Add new product"}
-                        hreff="products/create"
+                        onClick={() => router.visit(`/products/create`)}
                     />
                     {products.data.map((product) => (
                         <ProductCard
@@ -26,7 +27,9 @@ export default function Index({ products, categories }) {
                             image={`/storage/${product.image}`}
                             category={product.category.name}
                             name={product.name}
-                            hreff={`/products/${product.id}/edit`}
+                            onClick={() =>
+                                router.visit(`/products/${product.id}/edit`)
+                            }
                         />
                     ))}
                 </div>

@@ -555,7 +555,7 @@ export default function Form({ categories: initialCategories, product }) {
                             image={preview}
                             category={categoryName}
                             name={data.name}
-                            preview
+                            onClick={()=>{}}
                         />
                     </div>
                 </div>
