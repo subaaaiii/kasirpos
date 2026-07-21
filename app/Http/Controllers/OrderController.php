@@ -2,25 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrdersExport;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\OrderItem;
 use App\Models\Product;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $date = $request->date ?? Carbon::today()->toDateString();
+        $orders = Order::with('items.product')
+            ->when($request->search, function ($query, $search) {
+                $query->where('order_number', 'like', "%{$search}%");
+            })
+            ->when($request->payment_method, function ($query, $paymentMethod) {
+                $query->where('payment_method', $paymentMethod);
+            })
+            ->when($request->date, function ($query, $date) {
+                $query->whereDate('created_at', $date);
+            })
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+
         return Inertia::render('Orders/Index', [
-            'orders' => Order::with('items.product')
-                ->latest()
-                ->paginate(20),
+            'orders' => $orders,
+            'filters' => $request->only([
+                'search',
+                'payment_method',
+                'date',
+            ]),
         ]);
     }
 
@@ -108,5 +130,14 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function export(Request $request)
+    {
+        $filename = 'orders-' . Carbon::now()->format('d-m-Y') . '.xlsx';
+        return Excel::download(
+            new OrdersExport($request->date),
+            $filename
+        );
     }
 }

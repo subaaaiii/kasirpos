@@ -37,4 +37,8 @@ Route::get('/sales', function () {
 //     return Inertia::render('Orders/Index');
 // });
 
+Route::get('/orders/export', [OrderController::class, 'export'])
+    ->name('orders.export');
+    
 Route::resource('orders', OrderController::class);
+

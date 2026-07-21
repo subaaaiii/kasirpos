@@ -24,18 +24,18 @@ export default function ProductSearch({ categories, filters, url }) {
 
     const isFirstRender = useRef(true);
 
-useEffect(() => {
-    if (isFirstRender.current) {
-        isFirstRender.current = false;
-        return;
-    }
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
 
-    const timeout = setTimeout(() => {
-        applyFilters(search, category);
-    }, 500);
+        const timeout = setTimeout(() => {
+            applyFilters(search, category);
+        }, 500);
 
-    return () => clearTimeout(timeout);
-}, [search]);
+        return () => clearTimeout(timeout);
+    }, [search]);
 
     return (
         <div className="sticky top-0 z-10 bg-[#f0f6f6] ">
