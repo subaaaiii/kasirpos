@@ -9,15 +9,13 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class OrdersExport implements FromCollection, WithHeadings
 {
-    public function __construct(private ?string $date = null)
-    {
-    }
+    public function __construct(private ?string $date = null) {}
 
     public function collection()
     {
         return Order::when($this->date, function ($query) {
-                $query->whereDate('created_at', Carbon::parse($this->date));
-            })
+            $query->whereDate('created_at', Carbon::parse($this->date));
+        })
             ->select([
                 'order_number',
                 'payment_method',

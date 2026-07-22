@@ -29,9 +29,7 @@ class OrderController extends Controller
             ->when($request->payment_method, function ($query, $paymentMethod) {
                 $query->where('payment_method', $paymentMethod);
             })
-            ->when($request->date, function ($query, $date) {
-                $query->whereDate('created_at', $date);
-            })
+            ->whereDate('created_at', $date)
             ->latest()
             ->paginate(20)
             ->withQueryString();
