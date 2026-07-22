@@ -93,7 +93,6 @@ export default function Cashier({ products, categories, filters }) {
             setOrderItems([]);
             setPayment("");
         }});
-        // router.post("/orders", { items: orderItems, payment_method: payment });
     };
 
     return (
@@ -115,7 +114,8 @@ export default function Cashier({ products, categories, filters }) {
                         ))}
                     </div>
                 </div>
-                <div className="w-70 xl:w-100 h-screen relative bg-white">
+                {orderItems.length > 0 && (
+                    <div className="w-70 xl:w-100 h-screen relative bg-white">
                     <div className="flex justify-between items-center p-4 border-b border-gray-300 ">
                         <div className="text-2xl font-medium">
                             Current Order
@@ -259,6 +259,7 @@ export default function Cashier({ products, categories, filters }) {
                         </button>
                     </div>
                 </div>
+                )}
             </div>
         </AppLayout>
     );
