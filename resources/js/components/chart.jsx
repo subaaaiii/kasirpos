@@ -1,3 +1,4 @@
+import { formatPrice } from "@/helpers/formatPrice";
 import {
   LineChart,
   Line,
@@ -7,21 +8,25 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { month: "Jan", sales: 400 },
-  { month: "Feb", sales: 300 },
-  { month: "Mar", sales: 500 },
-];
+// const data = [
+//   { month: "Jan", sales: 400 },
+//   { month: "Feb", sales: 300 },
+//   { month: "Mar", sales: 500 },
+// ];
 
-export default function SalesChart() {
-  return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data}>
-        <XAxis dataKey="month" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="sales" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
+
+export default function SalesChart({ data }) {
+    return (
+        <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={data}>
+                <XAxis dataKey="label" />
+                <YAxis tickFormatter={formatPrice} />
+                <Tooltip formatter={(value) => formatPrice(value)} />
+                <Line
+                    type="monotone"
+                    dataKey="revenue"
+                />
+            </LineChart>
+        </ResponsiveContainer>
+    );
 }

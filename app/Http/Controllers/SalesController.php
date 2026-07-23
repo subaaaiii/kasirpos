@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\SalesExport;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -74,5 +75,90 @@ class SalesController extends Controller
             new SalesExport((int)$request->month, (int)$request->year),
             "sales-{$year}-{$month}.xlsx"
         );
+    }
+    private function compareWithPrevious(callable $callback)
+    {
+        $today = Carbon::today()->toDateString();
+
+        $lastDate = Order::whereDate('created_at', '<', $today)
+            ->orderByDesc('created_at')
+            ->value(DB::raw('DATE(created_at)'));
+
+        $todayValue = $callback($today);
+
+        $lastValue = $lastDate
+            ? $callback($lastDate)
+            : 0;
+
+        $percent = $lastValue > 0
+            ? (($todayValue - $lastValue) / $lastValue) * 100
+            : 0;
+
+        return response()->json([
+            'value' => $todayValue,
+            'percent' => round($percent, 2),
+            'previous_date' => $lastDate,
+        ]);
+    }
+
+    public function revenue()
+    {
+        return $this->compareWithPrevious(function ($date) {
+            return Order::whereDate('created_at', $date)
+                ->sum('grand_total');
+        });
+    }
+
+    public function transactions()
+    {
+        return $this->compareWithPrevious(function ($date) {
+            return Order::whereDate('created_at', $date)
+                ->count();
+        });
+    }
+    public function itemsSold()
+    {
+        return $this->compareWithPrevious(function ($date) {
+            return OrderItem::whereDate('created_at', $date)
+                ->sum('qty');
+        });
+    }
+    public function averageSales()
+    {
+        return $this->compareWithPrevious(function ($date) {
+            return Order::whereDate('created_at', $date)
+                ->avg('grand_total');
+        });
+    }
+
+
+    public function chart()
+    {
+        $startDate = Carbon::today()->subDays(6);
+
+        $sales = Order::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(grand_total) as revenue'),
+            DB::raw('COUNT(*) as transactions')
+        )
+            ->whereDate('created_at', '>=', $startDate)
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy('date')
+            ->get()
+            ->keyBy('date');
+
+        $result = [];
+
+        for ($date = $startDate->copy(); $date->lte(Carbon::today()); $date->addDay()) {
+            $day = $date->toDateString();
+
+            $result[] = [
+                'date' => $day,
+                'label' => $date->format('d M'),
+                'revenue' => $sales[$day]->revenue ?? 0,
+            ];
+        }
+
+        return response()->json($result);
     }
 }

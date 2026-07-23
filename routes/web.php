@@ -25,10 +25,21 @@ Route::get('/', function () {
 
 Route::get('/cashier', [CashierController::class, 'index'])->name('cashier.index');
 
+Route::get('api/sales/revenue', [SalesController::class, 'revenue'])
+    ->name('sales.revenue');
+Route::get('api/sales/transactions', [SalesController::class, 'transactions'])
+    ->name('sales.transactions');
+Route::get('api/sales/items-sold', [SalesController::class, 'itemsSold'])
+    ->name('sales.sold');
+Route::get('api/sales/average', [SalesController::class, 'averageSales'])
+    ->name('sales.average');
+Route::get('api/sales/chart', [SalesController::class, 'chart'])
+    ->name('sales.chart');
+Route::get('api/sales/top-products', [ProductController::class, 'topProducts'])
+    ->name('sales.top');
 Route::get('/sales/export', [SalesController::class, 'export'])
     ->name('sales.export');
 Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
-
 
 Route::resource('categories', CategoryController::class)
     ->only(['store', 'update', 'destroy']);
