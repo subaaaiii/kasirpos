@@ -99,7 +99,7 @@ class ProductController extends Controller
                     ->whereYear('orders.created_at', Carbon::now()->year);
                 break;
 
-            default: 
+            default:
                 $query->whereDate('orders.created_at', Carbon::today());
                 break;
         }
@@ -122,5 +122,14 @@ class ProductController extends Controller
             ->get();
 
         return response()->json($topProducts);
+    }
+
+    public function lowStocks()
+    {
+        $product = Product::where('stock', '<=', '20')
+        ->orderBy('stock')
+            ->get(['id','name', 'stock']);
+
+        return response()->json($product);
     }
 }

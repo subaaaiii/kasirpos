@@ -6,9 +6,6 @@ import { router } from "@inertiajs/react";
 import { formatPrice } from "@/helpers/formatPrice";
 
 export default function ShowSales({ sales, filters, years }) {
-    useEffect(() => {
-        console.log(sales);
-    }, []);
 
     const [month, setMonth] = useState(filters.month);
     const [year, setYear] = useState(filters.year);

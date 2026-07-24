@@ -13,9 +13,6 @@ import CustomPagination from "@/components/CustomPagination";
 import { router } from "@inertiajs/react";
 
 export default function ShowOrders({ orders, filters }) {
-    useEffect(() => {
-        console.log(orders);
-    }, []);
     const [date, setDate] = useState(
         filters?.date ? new Date(filters.date) : new Date(),
     );

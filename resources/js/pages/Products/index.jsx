@@ -9,7 +9,7 @@ export default function Index({ products, categories }) {
         <AppLayout>
             <div className="h-screen overflow-y-auto ">
                 <ProductSearch categories={categories} url={"/products"} />
-                <div className="grid grid-cols-5 gap-4 pt-10 p-6">
+                <div className="grid grid-cols-3 xl:grid-cols-5 gap-4 pt-10 p-6">
                     <ProductCard
                         key={1}
                         stock={999}

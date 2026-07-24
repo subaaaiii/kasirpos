@@ -138,4 +138,14 @@ class OrderController extends Controller
             $filename
         );
     }
+
+    public function recent()
+    {
+        $orders = Order::with('items.product')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return response()->json($orders);
+    }
 }

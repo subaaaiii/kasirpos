@@ -12,16 +12,6 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Dashboard');
 });
-// Route::get('/products', function () {
-//     return Inertia::render('Products/index');
-// });
-// Route::get('/products/create', function () {
-//     return Inertia::render('Products/Create');
-// });
-
-// Route::get('/cashier', function () {
-//     return Inertia::render('Cashier/Index');
-// });
 
 Route::get('/cashier', [CashierController::class, 'index'])->name('cashier.index');
 
@@ -44,14 +34,13 @@ Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
 Route::resource('categories', CategoryController::class)
     ->only(['store', 'update', 'destroy']);
 
+Route::get('api/products/low-stock', [ProductController::class, 'lowStocks'])
+    ->name('products.low');
+    
 Route::resource('products', ProductController::class);
 
-// Route::get('/sales', function () {
-//     return Inertia::render('Sales/Index');
-// });
-// Route::get('/orders/', function () {
-//     return Inertia::render('Orders/Index');
-// });
+Route::get('api/orders/recent', [OrderController::class, 'recent'])
+    ->name('orders.recent');
 
 Route::get('/orders/export', [OrderController::class, 'export'])
     ->name('orders.export');

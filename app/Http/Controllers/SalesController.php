@@ -127,7 +127,7 @@ class SalesController extends Controller
     {
         return $this->compareWithPrevious(function ($date) {
             return Order::whereDate('created_at', $date)
-                ->avg('grand_total');
+                ->avg('grand_total',0);
         });
     }
 

@@ -100,7 +100,7 @@ export default function Cashier({ products, categories, filters }) {
             <div className="flex h-screen relative">
                 <div className="flex-1 min-w-0 h-screen overflow-x-auto no-scrollbar">
                     <ProductSearch categories={categories} url={"/cashier"} filters={filters}/>
-                    <div className="grid grid-cols-2 xl:grid-cols-4 justify-center gap-4 p-6">
+                    <div className={`grid xl:grid-cols-5 justify-center gap-4 p-6 ${orderItems.length > 0 ? "grid-cols-2" : "grid-cols-3" }`}>
                         {products.data.map((product) => (
                             <ProductCard
                                 key={product.id}

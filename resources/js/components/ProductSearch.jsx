@@ -74,7 +74,7 @@ export default function ProductSearch({ categories, filters, url }) {
                 </div>
                 <Popover>
                     <PopoverTrigger aschild="true">
-                        <div className="xl:hidden outline p-3 rounded-xl">
+                        <div className="xl:hidden  p-3 rounded-xl">
                             <Filter size={30} className="text-gray-600" />
                         </div>
                     </PopoverTrigger>
